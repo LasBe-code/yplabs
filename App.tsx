@@ -1,14 +1,15 @@
 import React from 'react';
-import {SafeAreaView, Text} from 'react-native';
 import {Provider} from 'react-redux';
-import store from './src/store';
+import store, {persistor} from './src/store';
+import {PersistGate} from 'redux-persist/integration/react';
+import {Navigation} from './src/commons/navigation';
 
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>
-      <SafeAreaView>
-        <Text>asd</Text>
-      </SafeAreaView>
+      <PersistGate persistor={persistor}>
+        <Navigation />
+      </PersistGate>
     </Provider>
   );
 }
