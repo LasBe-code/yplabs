@@ -1,5 +1,15 @@
 import {combineReducers} from '@reduxjs/toolkit';
+import todoSlice from './todo/todo.slice';
+import {persistReducer} from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const rootReducer = combineReducers({});
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+};
 
-export default rootReducer;
+const rootReducer = combineReducers({
+  todo: todoSlice,
+});
+
+export default persistReducer(persistConfig, rootReducer);
