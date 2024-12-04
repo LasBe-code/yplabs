@@ -1,79 +1,74 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# YPLABS 앱 개발 과제
 
-# Getting Started
+<img width="1290" alt="image" src="https://github.com/user-attachments/assets/bff7d338-132b-4d3b-92d1-7aec1f1c66b4">
+## 기능구현
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+- [O] Todo item 작성
+  - [O] 공백 validation
+  - [O] 모달로 구현
+- [O] Todo item 삭제
+- [O] Todo item 수정
+  - [O] 공백 validation
+  - [O] 작성 모달과 통일감 있는 UI
+- [O] Todo 완료 여부 토글로 표현
+  - [O] 토글 된 값 기기에 저장
+  - [O] 완료된 Todo 수정 불가
+- [O] 상세 보기 페이지
+  - [O] 완료 및 취소 가능
+  - [O] item 수정
+- [O] item 5줄 표현
+- [O] 아래로 밀어서 새로고침
+- [O] pagination
 
-## Step 1: Start the Metro Server
+## 아키텍처
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+### components 폴더
 
-To start Metro, run the following command from the _root_ of your React Native project:
+- `/components/ui`: 비즈니스 로직이 없는 순수 UI 컴포넌트들이 포함됩니다.
+- `/components`: 비즈니스 로직이 포함된 컴포넌트들이 포함됩니다.
+
+### redux
+
+redux를 이용한 상태관리에 필요한 코드들을 `/store` 폴더에 관심사별로 묶었습니다.
+해당 관심사별로 다음과 같은 파일들이 포함될 수 있습니다.
+
+- `*.api.ts`: 서버 통신 코드
+- `*.saga.ts`: 서버 통신을 위한 saga 코드
+- `*.slice.ts`: redux toolkit을 이용해 상태관리에 필요한 slice 코드
+- `*.type.ts`: 관련된 타입들
+
+그 후 작성된 redux 관련 코드를 관심사별 hook으로 wrapping 해주어 component 및 screen에서 보일러 플레이트 없이 사용할 수 있도록 했습니다.
+
+## 개발환경
+
+- `node`: v20.10.0
+- `ruby`: v2.6.10
+- `cocoapods`: v1.16.2
+- `android compileSdkVersion`: 35
+- `IPHONEOS_DEPLOYMENT_TARGET`: 15.1
+
+## 앱 실행
 
 ```bash
-# using npm
-npm start
+ $ yarn install
+ $ yarn pod-install
 
-# OR using Yarn
-yarn start
+ # 안드로이드 실행
+ $ yarn android
+
+ # IOS 실행
+ $ yarn ios
 ```
 
-## Step 2: Start your Application
+## challenging
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+### redux
 
-### For Android
+redux를 사용해 상태를 관리하는 것은 처음이라 초기에 구조를 잡고 흐름을 파악하는 것에 어려움이 있었습니다.
+다른분들이 소개한 여러 구조들을 파악한 후 제가 가장 선호하는 방식대로 설계했습니다.
+그 후 구조에 맞춰 하나의 기능만을 구현한 후 그에 맞춰 다른 기능들을 확장하는 방식으로 빠르게 적응할 수 있었습니다.
 
-```bash
-# using npm
-npm run android
+### test
 
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+시간 상 saga function에 대한 테스트 환경을 익힐 시간이 충분치 않아 redux 코드를 wrapping한 hook을 테스트하려 했습니다.
+`@testing-library/react`을 설치해 테스트를 작성해보았으나 해당 환경에 대한 테스트 환경 구축의 경험이 부족하고, 시간 내 모듈 및 트랜스파일링 에러를 해결할 수 없을 것 같아 제외하고 저장소에 push 했습니다.
