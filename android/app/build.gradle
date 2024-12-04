@@ -105,6 +105,9 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    lintOptions {
+      disable 'DollarSignInIdentifier'  // $ 기호를 사용하는 식별자 관련 경고를 비활성화
+    }
 }
 
 dependencies {
