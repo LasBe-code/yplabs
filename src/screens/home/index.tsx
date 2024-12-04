@@ -10,8 +10,15 @@ import Button from '../../components/ui/button';
 import Font from '../../components/ui/font';
 
 export default function HomeScreen() {
-  const {todoList, isLoading, isEndPage, initTodo, fetchTodo, createTodo} =
-    useTodo();
+  const {
+    todoList,
+    isLoading,
+    isEndPage,
+    error,
+    initTodo,
+    fetchTodo,
+    createTodo,
+  } = useTodo();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleCreate = (value: string) => {
     createTodo(value);
@@ -21,11 +28,15 @@ export default function HomeScreen() {
     initTodo();
     fetchTodo();
   };
-
   return (
     <Container.View flex={1} padding="16px">
       <Title title="Todos" />
       <Container.View flex={1}>
+        {error && (
+          <Container.View flex={1}>
+            <Font.Caption>예기치 못한 에러가 발생했습니다.</Font.Caption>
+          </Container.View>
+        )}
         {!!todoList?.length && (
           <FlatList
             contentContainerStyle={styleSheet.contentContainer}
